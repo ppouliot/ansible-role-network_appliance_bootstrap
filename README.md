@@ -1,4 +1,4 @@
-# Ansible Role: ubnt-bootstrap 
+# Ansible Role: ubnt_device_bootstrap 
 ---------------------
 
 This ansible role will bootstrap SSH keys using a ssh connection to your UBNT Unifi and Edgerouter Devices.
@@ -14,23 +14,67 @@ ubnt_ssh_authorized_key: ~/.ssh/id_ed25519.pub
 ubnt_device_user_id: ubnt
 ansible_network_os: edgeos
 ansible_user: ubnt
-ansible_pass: ubnt
+ansible_pass: <YOUR_EDGEROUTER_PASSWORD>
 ansible_ssh_private_key_file: /etc/ansible/keys/id_rsa
 ansible_net_ssh__key_file: /etc/ansible/keys/id_rsa
 ansible_python_interpreter: /usr/bin/python
 ```
 
-The following role variables work for UnFi USG and USG4P  devices.
+The following role variables work for UnFi USG and USG4P devices.
+
+```
+ubnt_ssh_authorized_key: ~/.ssh/id_ed25519.pub
+ubnt_device_user_id: admin
+ansible_network_os: edgeos
+ansible_ssh_user: admin
+ansible_user: admin
+ansible_ssh_pass: <YOUR_USG_PASSWORD>
+ansible_pass: <YOURT_USG_PASSWORD>
+become: yes
+ansible_ssh_private_key_file: /etc/ansible/keys/id_rsa
+ansible_net_ssh__key_file: /etc/ansible/keys/id_rsa
+ansible_python_interpreter: /usr/bin/python
 ```
 
-## Installation
+## Installation:
+----------------
+
+```
+ansible-galaxy install ppouliot.ubnt_device_bootstrap
+```
+
+## Example Inventory:
 ---------------------
 
-ansible-galaxy install ppouliot.ubnt-bootstrap
+```
+localhost ansible_connection=local ansible_python_interpreter="/usr/bin/env python"
+  
+[usg]
+usg4p.pouliot.net
+
+[usg-by-ip]
+192.168.1.1
+
+[edgerouterx]
+erx.pouliot.net
+
+[edgerouterx-by-ip]
+192.168.1.2
+
+[cloudkey]
+Unifi-Cloudkey.pouliot.net
+
+[cloudkey-by-ip]
+192.168.1.3
+
+[ssh_connection]
+pipelining=True
+
+```
 
 
-## Bootstrap Playbook
----------------------
+## Bootstrap Playbook:
+----------------------
 
 Now you can simply add the following to your playbook file and include it in your site.yml so that it runs on all hosts in the ubnt group.
 
@@ -47,14 +91,61 @@ Now you can simply add the following to your playbook file and include it in you
     - ppouliot.ubnt_bootstrap
 ```
 
-Make sure that gather_facts is set to false, otherwise ansible will try to first gather system facts using python which is not yet installed!
+## Example Playbook
+-------------------
 
-## Contributors
+```
+
+#!/usr/bin/env ansible-playbook
+---
+
+- name: UniFi USG Bootstrap SSHKeys for Ansible
+  hosts: edgerouterx-by-ip
+  connection: ssh
+  become: yes
+  become_user: root
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_connection
+  roles:
+    - ppouliot.ubnt_bootstrap
+
+- hosts: edgerouterx
+  connection: network_cli
+  gather_facts: false
+  tasks:
+  - name: Collect facts from EdgeOS Devices
+    edgeos_facts:
+      gather_subset: all
+
+- name: UniFi USG Bootstrap SSHKeys for Ansible
+  hosts: usg-by-ip
+  connection: ssh
+  become: yes
+  become_user: root
+  gather_facts: false
+  tasks:
+    - debug: var=ansible_connection
+  roles:
+    - ppouliot.ubnt_bootstrap
+
+- hosts: usg
+  connection: network_cli
+  gather_facts: false
+  tasks:
+  - name: Collect facts from Unifi Devices
+    edgeos_facts:
+      gather_subset: all
+
+```
+
+
+## Contributors:
 ---------------------
 
  * Peter Pouliot <peter@pouliot.net>
 
-## Copyright and License
+## Copyright and License:
 ---------------------
 
 Copyright (C) 2018 Peter J. Pouliot

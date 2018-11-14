@@ -1,5 +1,6 @@
 ---
-# defaults file for ppouliot.ubnt_bootstrap
+# defaults file for ppouliot.ubnt_device_bootstrap
+
 ## SSH Authorized Key for Access to UBNT Devices
 ubnt_ssh_authorized_key: ~/.ssh/id_ed25519.pub
 ubnt_device_user_id: ubnt
