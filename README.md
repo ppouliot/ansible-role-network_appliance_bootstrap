@@ -1,11 +1,11 @@
 # Ansible Role: ubnt_device_bootstrap 
----------------------
+-------------------------------------
 
 This ansible role will bootstrap SSH keys using a ssh connection to your UBNT Unifi and Edgerouter Devices.
 
 
 ## Role Variables:
----------------------
+------------------
 
 The following role variables work for EdgeRouterX devices.
 
@@ -43,6 +43,24 @@ ansible_python_interpreter: /usr/bin/python
 ansible-galaxy install ppouliot.ubnt_device_bootstrap
 ```
 
+## Bootstrap Playbook:
+----------------------
+
+Now you can simply add the following to your playbook file and include it in your site.yml so that it runs on all hosts in the ubnt group.
+
+```
+- name: UniFi USG Bootstrap SSHKeys for Ansible
+  hosts: edgerouterx-by-ip
+  connection: ssh
+  become: yes
+  become_user: root
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_connection
+  roles:
+    - ppouliot.ubnt_bootstrap
+```
+
 ## Example Inventory:
 ---------------------
 
@@ -69,26 +87,6 @@ Unifi-Cloudkey.pouliot.net
 
 [ssh_connection]
 pipelining=True
-
-```
-
-
-## Bootstrap Playbook:
-----------------------
-
-Now you can simply add the following to your playbook file and include it in your site.yml so that it runs on all hosts in the ubnt group.
-
-```
-- name: UniFi USG Bootstrap SSHKeys for Ansible
-  hosts: edgerouterx-by-ip
-  connection: ssh
-  become: yes
-  become_user: root
-  gather_facts: yes
-  tasks:
-    - debug: var=ansible_connection
-  roles:
-    - ppouliot.ubnt_bootstrap
 ```
 
 ## Example Playbook
