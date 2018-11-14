@@ -1,38 +1,75 @@
-Role Name
-=========
+# Ansible Role: ubnt-bootstrap 
+---------------------
 
-A brief description of the role goes here.
+This ansible role will bootstrap SSH keys using a ssh connection to your UBNT Unifi and Edgerouter Devices.
 
-Requirements
-------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## Role Variables:
+---------------------
 
-Role Variables
---------------
+The following role variables work for EdgeRouterX devices.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```
+ubnt_ssh_authorized_key: ~/.ssh/id_ed25519.pub
+ubnt_device_user_id: ubnt
+ansible_network_os: edgeos
+ansible_user: ubnt
+ansible_pass: ubnt
+ansible_ssh_private_key_file: /etc/ansible/keys/id_rsa
+ansible_net_ssh__key_file: /etc/ansible/keys/id_rsa
+ansible_python_interpreter: /usr/bin/python
+```
 
-Dependencies
-------------
+The following role variables work for UnFi USG and USG4P  devices.
+```
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Installation
+---------------------
 
-Example Playbook
-----------------
+ansible-galaxy install ppouliot.ubnt-bootstrap
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Bootstrap Playbook
+---------------------
 
-License
--------
+Now you can simply add the following to your playbook file and include it in your site.yml so that it runs on all hosts in the ubnt group.
 
-BSD
+```
+- name: UniFi USG Bootstrap SSHKeys for Ansible
+  hosts: edgerouterx-by-ip
+  connection: ssh
+  become: yes
+  become_user: root
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_connection
+  roles:
+    - ppouliot.ubnt_bootstrap
+```
 
-Author Information
-------------------
+Make sure that gather_facts is set to false, otherwise ansible will try to first gather system facts using python which is not yet installed!
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Contributors
+---------------------
+
+ * Peter Pouliot <peter@pouliot.net>
+
+## Copyright and License
+---------------------
+
+Copyright (C) 2018 Peter J. Pouliot
+
+Peter Pouliot can be contacted at: peter@pouliot.net
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
