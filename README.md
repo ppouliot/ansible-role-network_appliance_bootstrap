@@ -43,24 +43,6 @@ ansible_python_interpreter: /usr/bin/python
 ansible-galaxy install ppouliot.ubnt_device_bootstrap
 ```
 
-## Bootstrap Playbook:
-----------------------
-
-Now you can simply add the following to your playbook file and include it in your site.yml so that it runs on all hosts in the ubnt group.
-
-```
-- name: UniFi USG Bootstrap SSHKeys for Ansible
-  hosts: edgerouterx-by-ip
-  connection: ssh
-  become: yes
-  become_user: root
-  gather_facts: yes
-  tasks:
-    - debug: var=ansible_connection
-  roles:
-    - ppouliot.ubnt_device_bootstrap
-```
-
 ## Example Inventory:
 ---------------------
 
