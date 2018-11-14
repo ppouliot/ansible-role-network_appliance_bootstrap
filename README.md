@@ -58,7 +58,7 @@ Now you can simply add the following to your playbook file and include it in you
   tasks:
     - debug: var=ansible_connection
   roles:
-    - ppouliot.ubnt_bootstrap
+    - ppouliot.ubnt_device_bootstrap
 ```
 
 ## Example Inventory:
@@ -106,7 +106,7 @@ pipelining=True
   tasks:
     - debug: var=ansible_connection
   roles:
-    - ppouliot.ubnt_bootstrap
+    - ppouliot.ubnt_device_bootstrap
 
 - hosts: edgerouterx
   connection: network_cli
@@ -125,7 +125,7 @@ pipelining=True
   tasks:
     - debug: var=ansible_connection
   roles:
-    - ppouliot.ubnt_bootstrap
+    - ppouliot.ubnt_device_bootstrap
 
 - hosts: usg
   connection: network_cli
