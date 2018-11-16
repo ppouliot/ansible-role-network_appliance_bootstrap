@@ -1,7 +1,7 @@
-# Ansible Role: ubnt_device_bootstrap 
+# Ansible Role: network_appliance_bootstrap 
 -------------------------------------
 
-This ansible role will bootstrap SSH keys using a ssh connection to your UBNT Unifi and Edgerouter Devices.
+This ansible role will bootstrap SSH keys onto Network Appliances using a ssh connection.  Currently targeting network appliances based on Vyatta, VyOS, and UBNT Devices.
 
 
 ## Role Variables:
