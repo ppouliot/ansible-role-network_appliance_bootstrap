@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 ---
 
-# Setup SSH authorized keys on Unifi/EdgeRouter Devices
+# Setup SSH authorized keys on Vyatta/Vyos and Unifi/EdgeRouter Devices
 
 - name: "Create persistent local config directory"
   file: 
@@ -10,7 +10,7 @@
 
 - name: "Copy SSH public key to router"
   copy: 
-    src: "{{ ubnt_ssh_authorized_key }}"
+    src: "{{ netapl_ssh_authorized_key }}"
     dest: "/config/local/authorized-ssh-key"
 
 - name: "Copy script to load public key into config"

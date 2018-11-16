@@ -1,7 +1,7 @@
 galaxy_info:
-  role_name: ubnt_device_bootstrap
+  role_name: network_appliance_bootstrap
   author: ppouliot
-  description: An Ansible role for bootstrapping ssh keys for Ansible management of UBNT USG and EdgeRouter Platforms
+  description: An Ansible role for bootstrapping ssh keys for Ansible management of Vyatta, VyOS, and UBNT USG and EdgeRouter Platforms
   license:
     - Apache
   version: 0.0.1
@@ -9,9 +9,14 @@ galaxy_info:
   galaxy_tags:
     - edgeos
     - unifi
+    - vyos
+    - vyatta
     - networking
   platforms:
     - name: EdgeOS
+      versions:
+        - all
+    - name: VyOS
       versions:
         - all
 dependencies: []
