@@ -1,0 +1,5 @@
+parsable: true
+skip_list:
+  - '301'
+use_default_rules: 1
+verbosity: 1

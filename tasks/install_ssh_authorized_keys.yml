@@ -3,21 +3,21 @@
 
 # Setup SSH authorized keys on Vyatta/Vyos and Unifi/EdgeRouter Devices
 
-- name: "Create persistent local config directory"
+- name: Create persistent local config directory
   file:
     path: /config/local
     state: directory
 
-- name: "Copy SSH public key to router"
+- name: Copy SSH public key to router
   copy:
     src: "{{ netapl_ssh_authorized_key }}"
-    dest: "/config/local/authorized-ssh-key"
+    dest: /config/local/authorized-ssh-key
 
-- name: "Copy script to load public key into config"
+- name: Copy script to load public key into config
   template:
-    src: ../templates/load-authorized-key.sh.j2
+    src: "{{ lookup ('template', 'load-authorized-key.sh.j2') }}"
     dest: /config/local/load-authorized-key.sh
     mode: 0755
 
-- name: "Load SSH public key into config"
+- name: Load SSH public key into config
   command: /config/local/load-authorized-key.sh
