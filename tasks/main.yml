@@ -3,5 +3,5 @@
 # tasks file for ppouliot.ubnt_device_bootstrap
 - name: Add ssh authorized keys.
   include_tasks: install_ssh_authorized_keys.yml
-  when: 
+  when:
     - ansible_connection == "ssh"
