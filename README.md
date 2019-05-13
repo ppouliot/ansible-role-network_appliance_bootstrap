@@ -56,7 +56,7 @@ ansible_python_interpreter: /usr/bin/python
 ----------------
 
 ```
-ansible-galaxy install ppouliot.ubnt_device_bootstrap
+ansible-galaxy install ppouliot.network_appliance_bootstrap
 ```
 
 ## Example Inventory:
