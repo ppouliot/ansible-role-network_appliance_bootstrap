@@ -14,10 +14,10 @@ galaxy_info:
     - vyatta
     - networking
   platforms:
-    - name: EdgeOS
+    - name: edgeos
       versions:
         - all
-    - name: VyOS
+    - name: vyos
       versions:
         - all
 dependencies: []
