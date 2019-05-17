@@ -1,3 +1,5 @@
+[![Ansible Galaxy](https://img.shields.io/ansible/role/32750.svg?style=flat)](https://galaxy.ansible.com/ppouliot/network_app_bootstrap/) [![Ansible Galaxy Downloads](https://img.shields.io/ansible/role/d/32750.svg)](https://galaxy.ansible.com/ppouliot/network_appliance_bootstrap/)
+
 # Ansible Role: network_appliance_bootstrap 
 -------------------------------------
 
