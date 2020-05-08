@@ -1,23 +1,21 @@
 #!/usr/bin/env ansible-playbook
 ---
-
 # Setup SSH authorized keys on Vyatta/Vyos and Unifi/EdgeRouter Devices
-
 - name: check for existance of /config/local
   stat:
     path: /config/local
   register: config_local
-  
+
 - name: "Notice if /config/local already exists"
   debug:
     msg: "NOTICE: /config/local already exists"
-  when: config_local.exists == true
+  when: config_local.exists
 
 - name: Create persistent local config directory
   file:
     path: /config/local
     state: directory
-  when: config_local.exists == false
+  when: not config_local.exists
 
 - name: check for existance of /config/local/authorized-ssh-key
   stat:
@@ -27,15 +25,15 @@
 - name: "Notice if /config/local/authorized-ssh-key already exists"
   debug:
     msg: "NOTICE: /config/local/authorized-ssh-key already exists"
-  when: authorized_ssh_key.exists == true
+  when: authorized_ssh_key.exists
 
 - name: Copy SSH public key to router
   copy:
     src: "{{ netapl_ssh_authorized_key }}"
     dest: /config/local/authorized-ssh-key
   when: 
-    - config_local.exists == true
-    - authorized_ssh_key.exists == false
+    - config_local.exists
+    - not authorized_ssh_key.exists
 
 - name: check for existance of /config/local/load-authorized-key.sh
   stat:
@@ -45,7 +43,7 @@
 - name: "Notice if /config/local/load-authorized-key.sh already exists"
   debug:
     msg: "NOTICE: /config/local/load-authorized-key.sh already exists"
-  when: authorized_ssh_key.exists == true
+  when: authorized_ssh_key.exists
 
 - name: Copy script to load public key into config
   template:
@@ -53,12 +51,12 @@
     dest: /config/local/load-authorized-key.sh
     mode: 0755
   when: 
-    - config_local.exists == true
-    - load_authorized_key_sh.exists == false
+    - config_local.exists
+    - not load_authorized_key_sh.exists
 
 - name: Load SSH public key into config
   command: /config/local/load-authorized-key.sh
   when:
-    - config_local.exists == true
-    - authorized_ssh_key.exists == true
-    - load_authorized_key_sh.exists == true
+    - config_local.exists
+    - authorized_ssh_key.exists
+    - load_authorized_key_sh.exists
