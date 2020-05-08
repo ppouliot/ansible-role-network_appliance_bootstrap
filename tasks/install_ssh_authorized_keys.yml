@@ -15,7 +15,7 @@
 
 - name: Copy script to load public key into config
   template:
-    src: "{{ lookup ('template', 'load-authorized-key.sh.j2') }}"
+    src: load-authorized-key.sh.j2
     dest: /config/local/load-authorized-key.sh
     mode: 0755
 
