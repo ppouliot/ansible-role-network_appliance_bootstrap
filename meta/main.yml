@@ -15,9 +15,9 @@ galaxy_info:
     - networking
   platforms:
     - name: edgeos
-      versions:
-        - all
+      version:
+        - any
     - name: vyos
-      versions:
-        - all
+      version:
+        - any
 dependencies: []
